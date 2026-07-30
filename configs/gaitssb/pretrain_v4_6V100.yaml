@@ -1,0 +1,114 @@
+data_cfg:
+  dataset_name: CombinedDataset
+  dataset_root: /path/to/CombinedDataset_Pretrain
+  dataset_partition: ./datasets/partition.json
+  num_workers: 0
+  remove_no_gallery: true
+  cache: false
+
+evaluator_cfg:
+  enable_float16: true
+  restore_ckpt_strict: true
+  restore_hint: 150000
+  save_name: HDA_Gait_Pretrain_V4
+  sampler:
+    batch_shuffle: false
+    batch_size: 12
+    sample_type: all_ordered
+    frames_all_limit: 720
+    type: InferenceSampler
+  metric: euc
+  transform:
+    - type: BaseSilTransform
+
+loss_cfg:
+  - loss_term_weight: 1.0
+    temperature: 0.07
+    type: SupConLoss_Lp
+    log_prefix: supcon_all
+
+  - loss_term_weight: 0.1
+    type: MultiDomainMMDLoss
+    log_prefix: mid_mmd_loss
+    sigma_ema_momentum: 0.9
+    min_sigma: 0.001
+
+  - loss_term_weight: 0.05
+    type: AdvLoss
+    log_prefix: adv_domain_high
+
+model_cfg:
+  model: GaitSSB_Pretrain_MD_V4
+  merge_domain_forward: true
+  backbone_cfg:
+    type: ResNet9_domain
+    block: BasicBlock
+    channels:
+      - 64
+      - 128
+      - 256
+      - 512
+    layers:
+      - 1
+      - 1
+      - 1
+      - 1
+    strides:
+      - 1
+      - 2
+      - 2
+      - 1
+    maxpool: false
+    stem_norm: adaptive_in_syncbn
+    adaptive_in_init_alpha: 0.25
+    bn_reduction: 16
+  parts_num: 31
+  grl_lambda_schedule:
+    - [0, 0.0]
+    - [60000, 0.5]
+    - [100000, 1.0]
+
+optimizer_cfg:
+  lr: 0.04
+  momentum: 0.9
+  solver: SGD
+  weight_decay: 0.0005
+
+scheduler_cfg:
+  gamma: 0.1
+  milestones:
+    - 60000
+    - 100000
+  scheduler: MultiStepLR
+
+trainer_cfg:
+  enable_float16: false
+  fix_BN: false
+  with_test: false
+  log_iter: 100
+  restore_ckpt_strict: true
+  restore_hint: 0
+  save_iter: 10000
+  find_unused_parameters: true
+  save_name: HDA_Gait_Pretrain_V4
+  sync_BN: true
+  total_iter: 150000
+  sampler:
+    batch_shuffle: true
+    batch_size:
+      - 18
+      - 1
+    frames_num_fixed: 16
+    independent_views: true
+    sample_type: fixed_ordered
+    frames_skip_num: 4
+    type: MultiSampler
+  transform:
+    - type: Compose
+      trf_cfg:
+        - type: BaseSilTransform
+        - type: RandomHorizontalFlip
+          prob: 0.2
+        - type: RandomRotate
+          prob: 0.2
+

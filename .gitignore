@@ -1,0 +1,58 @@
+# Training artifacts
+output/
+run_logs/
+logs/
+checkpoints/
+summary/
+events.out.tfevents.*
+*.pt
+*.pth
+*.ckpt
+
+# Datasets and serialized samples
+data/
+datasets/partition.json
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# Archives and migration bundles
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Generated figures and reports
+figures/
+results/
+*.log
+
+# Python and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+env/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+*secret*
+configs/**/*.local.yaml
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
