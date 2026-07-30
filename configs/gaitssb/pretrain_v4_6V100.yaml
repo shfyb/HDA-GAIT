@@ -96,7 +96,7 @@ trainer_cfg:
   sampler:
     batch_shuffle: true
     batch_size:
-      - 18
+      - 108
       - 1
     frames_num_fixed: 16
     independent_views: true

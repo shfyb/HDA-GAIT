@@ -114,17 +114,11 @@ data_cfg:
   dataset_partition: ./datasets/partition.json
 ```
 
-## q/k temporal sampling
-
-For every tracklet, q and k are sampled independently. Each view contains 16
-ordered frames selected without replacement from a 20-frame local candidate
-window (`16 + frames_skip_num=4`). No explicit non-overlap constraint is
-applied, so q and k may partially overlap.
 
 ## Pretraining
 
-The six-GPU configuration uses 18 identities per rank, giving a global identity
-batch of 108:
+The six-GPU configuration uses 108 identities per rank, giving a global identity
+batch of 648:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5 \
@@ -167,18 +161,8 @@ Publish their checksums and download instructions in this README.
 
 ## Citation
 
-The HDA-Gait citation will be added when the paper metadata is public. Please
-also cite the OpenGait framework:
+The HDA-Gait citation will be added when the paper metadata is public. 
 
-```bibtex
-@inproceedings{fan2023opengait,
-  title     = {OpenGait: Revisiting Gait Recognition Towards Better Practicality},
-  author    = {Fan, Chao and Liang, Junhao and Shen, Chuanfu and Hou, Saihui
-               and Huang, Yongzhen and Yu, Shiqi},
-  booktitle = {CVPR},
-  year      = {2023}
-}
-```
 
 ## Acknowledgement and terms
 
