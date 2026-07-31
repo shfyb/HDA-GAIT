@@ -59,7 +59,7 @@ def check_config() -> None:
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     assert config["model_cfg"]["model"] == "GaitSSB_Pretrain_MD_V4"
     assert config["model_cfg"]["backbone_cfg"]["type"] == "ResNet9_domain"
-    assert config["trainer_cfg"]["sampler"]["batch_size"] == [18, 1]
+    assert config["trainer_cfg"]["sampler"]["batch_size"] == [108, 1]
     assert config["trainer_cfg"]["sampler"]["independent_views"] is True
     weights = {
         item["log_prefix"]: item["loss_term_weight"]
